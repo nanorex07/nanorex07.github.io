@@ -4,37 +4,37 @@ let background_gradient;
 let runningAnim;
 
 class Vector {
-    constructor(x,y) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
     }
     getMag() {
-        return Math.sqrt(this.x*this.x + this.y*this.y);
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
-    add (v) {
+    add(v) {
         this.x += v.x;
         this.y += v.y;
     }
-    mult (v) {
+    mult(v) {
         this.x *= v.x;
-        this.y *= v.y;    
+        this.y *= v.y;
     }
 }
 
 class Particle {
-    constructor (x,y) {
+    constructor(x, y) {
         this.pos = new Vector(x, y);
-        this.vel = new Vector(-7 + Math.random()*14, 0);
-        this.acc = new Vector(0,0);
+        this.vel = new Vector(-7 + Math.random() * 14, 0);
+        this.acc = new Vector(0, 0);
         this.col = "#00a6fb";
         this.r = 15;
         this.resistance = 0.6;
     }
 
-    draw () {
+    draw() {
         ctx.beginPath();
         ctx.fillStyle = this.col;
-        ctx.arc(this.pos.x, this.pos.y, this.r, 0, Math.PI*2);
+        ctx.arc(this.pos.x, this.pos.y, this.r, 0, Math.PI * 2);
         ctx.shadowColor = '#E3EAEF';
         ctx.shadowBlur = 10;
         ctx.shadowOffsetX = 0;
@@ -48,60 +48,60 @@ class Particle {
     }
 
     burst() {
-        let n = 5*Math.floor(this.r / 2);
-        for(let i = 0; i < n; i++) {
+        let n = 5 * Math.floor(this.r / 2);
+        for (let i = 0; i < n; i++) {
             particles.push(new MiniParticle(this.pos.x, this.pos.y, Math.min(Math.floor(this.r / 2), 3)))
         }
     }
 
-    update () {
+    update() {
         this.pos.add(this.vel);
         this.applyForce(gravity);
         this.vel.add(this.acc);
 
-        if (this.pos.x - this.r + this.vel.x < 0 || this.pos.x + this.r + this.vel.x > canv.width){
+        if (this.pos.x - this.r + this.vel.x < 0 || this.pos.x + this.r + this.vel.x > canv.width) {
             this.vel.x *= -1;
         }
-        if (this.pos.y + this.r + this.vel.y >= canv.height){
-            this.vel.y = -1*this.vel.y*this.resistance;
+        if (this.pos.y + this.r + this.vel.y >= canv.height) {
+            this.vel.y = -1 * this.vel.y * this.resistance;
             this.burst();
             this.r -= 2;
         }
-        if (this.acc.getMag() > 0) this.acc.mult(new Vector(0,0));
+        if (this.acc.getMag() > 0) this.acc.mult(new Vector(0, 0));
     }
 
 }
 
 class MiniParticle extends Particle {
-    constructor (x,y,r) {
-        super(x,y);
-        this.vel = new Vector(-6 + Math.random()*12, -10 + Math.random()*(-20));
-        this.acc = new Vector(0,0);
+    constructor(x, y, r) {
+        super(x, y);
+        this.vel = new Vector(-6 + Math.random() * 12, -10 + Math.random() * (-20));
+        this.acc = new Vector(0, 0);
         this.col = "rgba(150,155,155,0.6)";
         this.r = r;
         this.resistance = 0.4
     }
 
-    update () {
+    update() {
         this.pos.add(this.vel);
         this.applyForce(gravity);
         this.vel.add(this.acc);
 
-        if (this.pos.x - this.r + this.vel.x < 0 || this.pos.x + this.r + this.vel.x > canv.width){
+        if (this.pos.x - this.r + this.vel.x < 0 || this.pos.x + this.r + this.vel.x > canv.width) {
             this.vel.x *= -1;
         }
-        if (this.pos.y + this.r + this.vel.y >= canv.height){
-            this.vel.y = -1*this.vel.y*this.resistance;
+        if (this.pos.y + this.r + this.vel.y >= canv.height) {
+            this.vel.y = -1 * this.vel.y * this.resistance;
             this.r -= 1;
         }
-        if (this.acc.getMag() > 0) this.acc.mult(new Vector(0,0));
+        if (this.acc.getMag() > 0) this.acc.mult(new Vector(0, 0));
     }
 }
 
 let repaint = () => {
     ctx.fillStyle = background_gradient;
-    ctx.fillRect(0,0,canv.width, canv.height);
-    bgcut();    
+    ctx.fillRect(0, 0, canv.width, canv.height);
+    bgcut();
 }
 
 let anim = () => {
@@ -109,13 +109,14 @@ let anim = () => {
     particles.forEach((particle, index) => {
         particle.draw();
         particle.update();
-        if(particle.r < 0){
+        if (particle.r < 0) {
             particles.splice(index, 1);
         }
     })
     if (Math.random() < 0.008) {
-        particles.push(new Particle(canv.width/2, -400*Math.random()));
+        particles.push(new Particle(canv.width / 2, -400 * Math.random()));
     }
+
     runningAnim = window.requestAnimationFrame(anim);
 
 }
@@ -123,7 +124,7 @@ let anim = () => {
 let bgcut = () => {
     ctx.beginPath();
     ctx.moveTo(0, canv.height);
-    ctx.lineTo(canv.width/2, canv.height/2);
+    ctx.lineTo(canv.width / 2, canv.height / 2);
     ctx.lineTo(canv.width, canv.height);
     ctx.fillStyle = "#003554";
     ctx.shadowBlur = 0;
@@ -133,10 +134,10 @@ let bgcut = () => {
 
 let init = () => {
     particles = new Array();
-    particles.push(new Particle(canv.width/2, -400*Math.random()));
-    background_gradient = ctx.createLinearGradient(0,0,0,canv.height);
-    background_gradient.addColorStop(1,"#003554");
-    background_gradient.addColorStop(0,"#051923");
+    particles.push(new Particle(canv.width / 2, -400 * Math.random()));
+    background_gradient = ctx.createLinearGradient(0, 0, 0, canv.height);
+    background_gradient.addColorStop(1, "#003554");
+    background_gradient.addColorStop(0, "#051923");
 
 
 }
@@ -147,25 +148,26 @@ let start = () => {
     canv.height = window.innerHeight;
     gravity = new Vector(0, 0.8);
     init();
-    if (canv.width > 500) {
+    if (canv.width > 400) {
         anim();
     }
-    else{
+    else {
         repaint();
     }
 }
 let resize = () => {
-    canv.width = window.innerWidth
-    canv.height = window.innerHeight
-    if (canv.width <= 500) {
+    canv.width = window.innerWidth;
+    canv.height = document.querySelector(".active").scrollHeight
+    if (canv.width <= 400) {
         repaint();
-         window.cancelAnimationFrame(runningAnim);
-         runningAnim = -1;
+        window.cancelAnimationFrame(runningAnim);
+        runningAnim = -1;
     }
-    else if (runningAnim == -1){
+    else if (runningAnim == -1) {
         init();
         anim();
     }
 }
 window.onload = start;
 window.onresize = resize;
+window.onscroll = resize;
