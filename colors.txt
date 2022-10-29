@@ -1,0 +1,23 @@
+/* CSV */
+00a6fb,0582ca,006494,003554,051923
+
+/* With # */
+#00a6fb, #0582ca, #006494, #003554, #051923
+
+/* Array */
+["00a6fb","0582ca","006494","003554","051923"]
+
+/* Object */
+{"Blue Jeans":"00a6fb","Green Blue Crayola":"0582ca","Sapphire Blue":"006494","Prussian Blue":"003554","Rich Black FOGRA 29":"051923"}
+
+/* Extended Array */
+[{"name":"Blue Jeans","hex":"00a6fb","rgb":[0,166,251],"cmyk":[100,34,0,2],"hsb":[200,100,98],"hsl":[200,100,49],"lab":[65,-5,-52]},{"name":"Green Blue Crayola","hex":"0582ca","rgb":[5,130,202],"cmyk":[98,36,0,21],"hsb":[202,98,79],"hsl":[202,95,41],"lab":[52,-3,-45]},{"name":"Sapphire Blue","hex":"006494","rgb":[0,100,148],"cmyk":[100,32,0,42],"hsb":[199,100,58],"hsl":[199,100,29],"lab":[40,-6,-33]},{"name":"Prussian Blue","hex":"003554","rgb":[0,53,84],"cmyk":[100,37,0,67],"hsb":[202,100,33],"hsl":[202,100,16],"lab":[21,-3,-23]},{"name":"Rich Black FOGRA 29","hex":"051923","rgb":[5,25,35],"cmyk":[86,29,0,86],"hsb":[200,86,14],"hsl":[200,75,8],"lab":[8,-4,-9]}]
+
+/* XML */
+<palette>
+  <color name="Blue Jeans" hex="00a6fb" r="0" g="166" b="251" />
+  <color name="Green Blue Crayola" hex="0582ca" r="5" g="130" b="202" />
+  <color name="Sapphire Blue" hex="006494" r="0" g="100" b="148" />
+  <color name="Prussian Blue" hex="003554" r="0" g="53" b="84" />
+  <color name="Rich Black FOGRA 29" hex="051923" r="5" g="25" b="35" />
+</palette>
