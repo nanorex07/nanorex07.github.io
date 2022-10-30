@@ -174,7 +174,7 @@ section {
   position: relative;
 }
 .header-content .left-header .image {
-  height: 50%;
+  height: 60%;
   width: 55%;
   margin-left: 10rem;
   transition: all 0.4s ease-in-out;
@@ -190,7 +190,7 @@ section {
   transition: all 0.4s ease-in-out;
 }
 .header-content .left-header .image img:hover {
-  filter: sepia(0%) hue-rotate(0deg) saturate(80%);
+  filter: sepia(0%) hue-rotate(0deg) saturate(100%);
   opacity: 0.7;
 }
 .header-content .right-header {
@@ -676,7 +676,7 @@ section {
   }
   .header-content .left-header .image {
     margin: 0 auto;
-    width: 70% !important;
+    width: 60% !important;
     height: 70% !important;
   }
   .controls {
@@ -841,7 +841,7 @@ section {
     display: none;
   }
   .left-header .image {
-    width: 70% !important;
+    width: 60% !important;
     height: 70% !important;
     margin: 0 auto !important;
   }
