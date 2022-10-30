@@ -1,7 +1,12 @@
+window.requestAnimFrame = function () { return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (a) { window.setTimeout(a, 1E3 / 60) } }();
+
+
 let canv, ctx;
 let particles, gravity;
 let background_gradient;
 let runningAnim;
+let timer; let randomSpawn;
+
 
 class Vector {
     constructor(x, y) {
@@ -27,7 +32,7 @@ class Particle {
         this.vel = new Vector(-7 + Math.random() * 14, 0);
         this.acc = new Vector(0, 0);
         this.col = "#00a6fb";
-        this.r = 20;
+        this.r = 10 + Math.floor(Math.random() * 5);
         this.resistance = 0.6;
     }
 
@@ -48,7 +53,7 @@ class Particle {
     }
 
     burst() {
-        let n = 5 * Math.floor(this.r / 2);
+        let n = 2 * Math.floor(this.r / 2);
         for (let i = 0; i < n; i++) {
             particles.push(new MiniParticle(this.pos.x, this.pos.y, Math.min(Math.floor(this.r / 2), 3)))
         }
@@ -113,11 +118,15 @@ let anim = () => {
             particles.splice(index, 1);
         }
     })
-    if (Math.random() < 0.008) {
+
+    timer++;
+    if (timer % randomSpawn == 0) {
         particles.push(new Particle(canv.width / 2, -400 * Math.random()));
+        randomSpawn = Math.floor((Math.random() * 10) + 75)
+        timer = 0;
     }
 
-    runningAnim = window.requestAnimationFrame(anim);
+    runningAnim = window.requestAnimFrame(anim);
 
 }
 
@@ -138,7 +147,8 @@ let init = () => {
     background_gradient = ctx.createLinearGradient(0, 0, 0, canv.height);
     background_gradient.addColorStop(1, "#003554");
     background_gradient.addColorStop(0, "#051923");
-
+    timer = 0;
+    randomSpawn = Math.floor((Math.random() * 25) + 60)
 
 }
 let start = () => {
