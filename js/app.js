@@ -32,6 +32,20 @@
             "link": "https://github.com/nanorex07/PyNeat"
         },
         {
+            "name": "Denaii - Expense Tracker",
+            "image": "https://raw.githubusercontent.com/nanorex07/Denarii/main/assets/5gj6Xa1gwu.gif",
+            "github": "https://github.com/nanorex07/Denarii",
+            "youtube": "#",
+            "link": "https://github.com/nanorex07/Denarii"
+        },
+        {
+            "name": "MNIST Classifier",
+            "image": "./img/mnist.gif",
+            "github": "https://github.com/nanorex07/mnist-classifier",
+            "youtube": "https://www.youtube.com/watch?v=xHxHKfick8M",
+            "link": "https://github.com/nanorex07/mnist-classifier"
+        },
+        {
             "name": "Contest Lister CLI",
             "image": "./img/contestlister.png",
             "github": "https://github.com/nanorex07/Contest-Lister-CLI",

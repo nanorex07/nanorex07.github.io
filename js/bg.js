@@ -27,7 +27,7 @@ class Particle {
         this.vel = new Vector(-7 + Math.random() * 14, 0);
         this.acc = new Vector(0, 0);
         this.col = "#00a6fb";
-        this.r = 15;
+        this.r = 20;
         this.resistance = 0.6;
     }
 
