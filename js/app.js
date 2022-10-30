@@ -32,7 +32,7 @@
             "link": "https://github.com/nanorex07/PyNeat"
         },
         {
-            "name": "Denaii - Expense Tracker",
+            "name": "Denarii - Expense Tracker",
             "image": "https://raw.githubusercontent.com/nanorex07/Denarii/main/assets/5gj6Xa1gwu.gif",
             "github": "https://github.com/nanorex07/Denarii",
             "youtube": "#",
