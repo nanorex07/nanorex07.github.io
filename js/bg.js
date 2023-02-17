@@ -1,7 +1,5 @@
-window.requestAnimFrame = function () { return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (a) { window.setTimeout(a, 1E3 / 60) } }();
-
-
-let canv, ctx;
+let canv =  document.getElementById("canvas");
+let ctx = canv.getContext('2d');
 let particles, gravity;
 let background_gradient;
 let runningAnim;
@@ -126,7 +124,7 @@ let anim = () => {
         timer = 0;
     }
 
-    runningAnim = window.requestAnimFrame(anim);
+    runningAnim = window.requestAnimationFrame(anim);
 
 }
 
@@ -152,8 +150,6 @@ let init = () => {
 
 }
 let start = () => {
-    canv = document.getElementById("canvas");
-    ctx = canv.getContext("2d");
     canv.width = window.innerWidth;
     canv.height = window.innerHeight;
     gravity = new Vector(0, 0.8);
@@ -178,6 +174,10 @@ let resizeWin = () => {
         anim();
     }
 }
-window.onload = start;
-window.onresize = resizeWin;
-window.onscroll = resizeWin;
+// document.onload = start;
+// document.onresize = resizeWin;
+// document.onscroll = resizeWin;
+window.addEventListener("load", start);
+window.addEventListener("resize", resizeWin);
+window.addEventListener("scroll", resizeWin);
+
