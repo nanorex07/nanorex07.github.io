@@ -1,12 +1,14 @@
 import mdx from '@astrojs/mdx';
-import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import expressiveCode from 'astro-expressive-code';
-import { loadEnv } from 'vite';
-import spectre, { type GiscusMapping } from './package/src';
+// import { loadEnv } from 'vite';
+// import spectre, { type GiscusMapping } from './package/src';
+import spectre from './package/src';
+
 import { spectreDark } from './src/ec-theme';
 
+/*
 const {
 	GISCUS_REPO,
 	GISCUS_REPO_ID,
@@ -18,10 +20,11 @@ const {
 	GISCUS_EMIT_METADATA,
 	GISCUS_LANG,
 } = loadEnv(process.env.NODE_ENV!, process.cwd(), '');
+*/
 
 // https://astro.build/config
 const config = defineConfig({
-	site: 'https://spectre.lou.gg',
+	site: 'https://nanorex07.github.io',
 	output: 'static',
 	integrations: [
 		expressiveCode({
@@ -30,20 +33,21 @@ const config = defineConfig({
 		mdx(),
 		sitemap(),
 		spectre({
-			name: 'Spectre',
+			name: 'Namah Jain',
 			openGraph: {
 				home: {
-					title: 'Spectre',
-					description: 'A minimalistic theme for Astro.',
+					title: 'Namah Jain',
+					description: 'Software Developer Portfolio',
 				},
 				blog: {
 					title: 'Blog',
-					description: 'News and guides for Spectre.',
+					description: 'Articles and insights by Namah Jain.',
 				},
 				projects: {
 					title: 'Projects',
 				},
 			},
+			/*
 			giscus: {
 				repository: GISCUS_REPO,
 				repositoryId: GISCUS_REPO_ID,
@@ -55,11 +59,10 @@ const config = defineConfig({
 				emitMetadata: GISCUS_EMIT_METADATA === 'true',
 				lang: GISCUS_LANG,
 			},
+			*/
 		}),
 	],
-	adapter: node({
-		mode: 'standalone',
-	}),
+	adapter: undefined,
 });
 
 export default config;

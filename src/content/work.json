@@ -1,9 +1,30 @@
 [
 	{
-		"id": 1,
-		"duration": "2024 - present",
-		"company": "Astro Community",
-		"title": "Astro Theme",
-		"description": "Existing as an Astro theme for anyone to use."
+		"id": 5,
+		"duration": "August 2025 - Present",
+		"company": "Raft AI",
+		"title": "Software Engineer 2",
+		"description": "Optimized backend services to reduce request latency by 60-80%. Developed custom OS-level drivers in C for file processing and built RAG pipelines processing invoice data at scale."
+	},
+	{
+		"id": 4,
+		"duration": "January 2025 - August 2025",
+		"company": "Convin AI",
+		"title": "Software Development Engineer",
+		"description": "Scaled backend infrastructure for a live assist platform from 50 to 5,000+ concurrent calls. Engineered real-time audio streaming and transcription pipelines for large-scale telecom call centers."
+	},
+	{
+		"id": 3,
+		"duration": "October 2024 - January 2025",
+		"company": "Fynd",
+		"title": "Software Development Engineer",
+		"description": "Engineered Fynix, a cross-platform IDE plugin for AI-powered code assistance using Java and Kotlin. Implemented concurrent multi-project indexing and integrated vector databases for code completion."
+	},
+	{
+		"id": 2,
+		"duration": "April 2022 - October 2024",
+		"company": "Prof Curious",
+		"title": "Backend Engineer",
+		"description": "Engineered microservices APIs for 30K+ daily active users. Developed message queues and cron jobs using RabbitMQ and Celery, and integrated RAG pipelines with multiple LLM services."
 	}
 ]

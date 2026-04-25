@@ -1,5 +1,20 @@
 [
 	{
 		"id": "guide"
+	},
+	{
+		"id": "python"
+	},
+	{
+		"id": "javascript"
+	},
+	{
+		"id": "machine-learning"
+	},
+	{
+		"id": "backend"
+	},
+	{
+		"id": "competitive-programming"
 	}
 ]

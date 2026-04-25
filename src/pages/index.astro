@@ -3,7 +3,7 @@ import "../styles/index.css";
 
 import { getCollection, getEntry, render } from "astro:content";
 import { name, openGraph } from "spectre:globals";
-import ProfilePicture from "../assets/pfp.png";
+import ProfilePicture from "../assets/pfp.jpg";
 import Card from "../components/Card.astro";
 import Icon from "../components/Icon.astro";
 import ImageGlow from "../components/ImageGlow.astro";
@@ -34,7 +34,7 @@ const { Content: About } = await render(about!);
 				width={120}
 				height={120}
 				src={ProfilePicture}
-				alt="A purple, minimalist looking ghost."
+				alt="Namah Jain"
 				loading="eager"
 			/>
 			<h2>{name}</h2>
@@ -97,6 +97,38 @@ const { Content: About } = await render(about!);
 			<div class="header-container">
 				<Icon
 					type="lucide"
+					name="briefcase-business"
+					width={24}
+					height={24}
+					class="glow-icon"
+				/>
+				<h2>Work Experience</h2>
+			</div>
+			<div class="work-experience-container">
+				{
+					workExperience.reverse().map((entry) => (
+						<div class="work-experience-entry">
+							<span class="work-experience-duration">
+								{entry.data.duration}
+							</span>
+							<h3 class="work-experience-company">
+								{entry.data.company}
+							</h3>
+							<span class="work-experience-role">
+								{entry.data.title}
+							</span>
+							<p class="work-experience-desc">
+								{entry.data.description}
+							</p>
+						</div>
+					))
+				}
+			</div>
+		</Card>
+		<Card>
+			<div class="header-container">
+				<Icon
+					type="lucide"
 					name="rss"
 					width={24}
 					height={24}
@@ -108,7 +140,9 @@ const { Content: About } = await render(about!);
 				{
 					posts
 						.sort(
-							(a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime(),
+							(a, b) =>
+								b.data.createdAt.getTime() -
+								a.data.createdAt.getTime(),
 						)
 						.slice(0, 2)
 						.map((post) => (
@@ -139,10 +173,16 @@ const { Content: About } = await render(about!);
 			<div class="content-container">
 				{
 					projects
-						.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+						.sort(
+							(a, b) =>
+								b.data.date.getTime() - a.data.date.getTime(),
+						)
 						.slice(0, 2)
 						.map((project) => (
-							<a href={`/projects/${project.id}`} class="post-container">
+							<a
+								href={`/projects/${project.id}`}
+								class="post-container"
+							>
 								<div class="post-header">
 									<h3>{project.data.title}</h3>
 									<span class="post-date">
@@ -152,32 +192,6 @@ const { Content: About } = await render(about!);
 								<span>{project.data.description}</span>
 							</a>
 						))
-				}
-			</div>
-		</Card>
-		<Card>
-			<div class="header-container">
-				<Icon
-					type="lucide"
-					name="briefcase-business"
-					width={24}
-					height={24}
-					class="glow-icon"
-				/>
-				<h2>Work Experience</h2>
-			</div>
-			<div class="work-experience-container">
-				{
-					workExperience.reverse().map((entry) => (
-						<div class="work-experience-entry">
-							<span class="work-experience-duration">
-								{entry.data.duration}
-							</span>
-							<h3 class="work-experience-company">{entry.data.company}</h3>
-							<span class="work-experience-role">{entry.data.title}</span>
-							<p class="work-experience-desc">{entry.data.description}</p>
-						</div>
-					))
 				}
 			</div>
 		</Card>
