@@ -12,7 +12,7 @@ import Layout from "../layouts/Layout.astro";
 const [posts, projects, about, workExperience, quickInfo, socials] =
 	await Promise.all([
 		getCollection("posts", (post) => post.data.draft !== true),
-		getCollection("projects"),
+		getCollection("projects", (project) => project.data.show),
 		getEntry("other", "about"),
 		getCollection("workExperience"),
 		getCollection("quickInfo"),
@@ -56,6 +56,23 @@ const { Content: About } = await render(about!);
 			</ul>
 		</Card>
 		<Card>
+			<h3 class="no-mt">Contact</h3>
+			<ul class="overview-list">
+				<li>
+					<a href="mailto:jainnamah@gmail.com" class="socials-link">
+						<Icon
+							type="lucide"
+							name="mail"
+							width={24}
+							height={24}
+							class="glow-icon"
+						/>
+						<span>jainnamah@gmail.com</span>
+					</a>
+				</li>
+			</ul>
+		</Card>
+		<Card>
 			<h3 class="no-mt">Socials</h3>
 			<ul class="overview-list">
 				{
@@ -91,6 +108,14 @@ const { Content: About } = await render(about!);
 			</div>
 			<div class="prose">
 				<About />
+				<div class="resume-container">
+					<a
+						href="https://app.flowcv.com/resume-feedback/7WqjRBSFfwEI"
+						class="resume-button"
+						target="_blank"
+						rel="noopener noreferrer">Resume</a
+					>
+				</div>
 			</div>
 		</Card>
 		<Card>
@@ -134,7 +159,7 @@ const { Content: About } = await render(about!);
 					height={24}
 					class="glow-icon"
 				/>
-				<h2>Latest Posts</h2>
+				<h2>Latest Blogs</h2>
 			</div>
 			<div class="content-container">
 				{

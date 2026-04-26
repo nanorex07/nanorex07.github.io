@@ -123,7 +123,7 @@ class PageBackground {
 			const animLength =
 				this.LETTER_FADE_DURATION[0] +
 				Math.random() *
-					(this.LETTER_FADE_DURATION[1] - this.LETTER_FADE_DURATION[0]);
+				(this.LETTER_FADE_DURATION[1] - this.LETTER_FADE_DURATION[0]);
 
 			this.letterInstances.push({
 				x: letter.x,
@@ -235,8 +235,8 @@ class PageBackground {
 						Date.now() +
 						(this.LETTER_FADE_DURATION[0] +
 							Math.random() *
-								(this.LETTER_FADE_DURATION[1] - this.LETTER_FADE_DURATION[0])) *
-							1000,
+							(this.LETTER_FADE_DURATION[1] - this.LETTER_FADE_DURATION[0])) *
+						1000,
 				});
 			}
 
@@ -280,7 +280,7 @@ class PageBackground {
  * Loads the Geist Mono font. We have to do this asynchronously because the font is not preloaded.
  */
 async function loadFont() {
-	const font = new FontFace("Geist Mono", "url(/fonts/GeistMono.woff2)");
+	const font = new FontFace("Geist Mono", "url(/fonts/JetBrainsMono.ttf)");
 
 	await font.load();
 

@@ -1,0 +1,253 @@
+---
+title: "Stress Testing in Competitive Programming"
+description: "Stress Testing is a technique used to debug and arrive at efficient solutions to problems from inefficient but correct solutions, otherwise known as brute force solutions."
+image: "../assets/stress-test-cp.jpeg"
+createdAt: 11-12-2021
+draft: false
+tags:
+  - competitive-programming
+  - bash
+  - c/c++
+---
+
+While solving problems in coding contest people often stuck at solutions which seem to be correct but they fail at some test case when submitted. It gets tedious to find or guess a test case where the solution might fail. We can use the magic of pseudo-random numbers to find a test case where our initial solution failed and thus it gets easier to debug that solution and arrive at the optimal solution.
+
+### **Requirements**
+
+*   A **Brute Force** solution that might be slow but optimal
+*   **Generator** to generate random tests
+*   **Checker** to check the correct and incorrect solutions side by side. Making a checker can be a little difficult when problems have multiple solutions, otherwise we can use [_diff_](https://www.geeksforgeeks.org/diff-command-linux-examples/) tool in Linux
+
+### How to Implement
+
+The key idea is to generate random tests using pseudo-random numbers and run both the correct (Brute Force solution) and incorrect solution ( original solution you aim to optimise ) on them. Then we compare the results from both solutions and look for a mismatch. If there’s a mismatch we have the test case where our solution fails :).
+
+There can be various code implementations of stress testing. The most obvious method is to write generator, checker and the brute force solution as functions in the same file as the original solution. But this can get messy when the solutions are big and it might restrict you from using global variables and constants etc.
+
+Better way is to using a script to handle the checking and write generator, brute force and actual solutions all in different files. Let’s use bash to write such a script and find a way to debug following example problem.
+
+### **Example Problem**
+
+Given an array of natural numbers find maximum pairwise product. Example let the array be [10, 20, 12, 50]. Here the answer will be 1000 as [20,50] is the pair that will give the maximum product.
+
+### Brute Force
+
+Let’s now write a brute force solution to solve the problem.
+
+```cpp title="brute.cpp"
+#include <bits/stdc++.h>
+using namespace std;
+/*
+Iterate through each and every pair and 
+keep track of maximum prodcut
+*/
+void solve(){	
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    int ans = 0;
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+    for(int i = 0; i < n; i++)
+        for(int j = i+1; j < n; j++)
+            ans = max(ans, arr[i]*arr[j]);
+    cout << ans << endl;
+}
+
+int main(){
+    int t = 1;
+    while(t--)
+        solve();
+    return 0;
+}
+```
+
+### Incorrect Solution
+
+Assume this is the solution we’re trying to debug
+
+```cpp title="testing.cpp"
+#include <bits/stdc++.h>
+using namespace std;
+/*
+Find 2 indices which are maximum and different
+And there product is the answer
+-O(n)
+*/
+void solve(){
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    int ans = 0;
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];  
+    int m1 = -1, m2 = -1;
+    for(int i = 0; i < n; i++)
+        if((m1 == -1) || arr[i] > arr[m1])
+            m1 = i;
+    for(int i = 0; i < n; i++)
+        if(arr[i] != arr[m1] && (m2 == -1 || arr[i] > arr[m2]))
+            m2 = i;
+    cout << arr[m1]*arr[m2] << endl;
+}
+
+int main(){
+    int t = 1;
+    while(t--)
+        solve();
+    return 0;
+}
+```
+The above solution fails on the test case where the two largest elements in array are same. Later we’ll see how our stress testing will find such a test case.
+
+### Generator
+
+```cpp title="generator.cpp"
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    srand(time(0));
+    int n = rand() % 10 + 2;
+    cout << n << "\n";
+    for(int i = 0; i < n; i++)
+        cout << rand()%10 << " ";
+    cout << "\n";
+    return 0;
+}
+```
+
+The above code will generate a random test and write it to output window one at a time. Here “srand” is used to give different test each time we run the script. More on them can be found [here](https://www.geeksforgeeks.org/rand-and-srand-in-ccpp/).
+
+### Stress Testing Bash Script
+
+```sh title="stress_test.sh"
+#!/bin/bash
+
+set -e
+
+#cmd arguments
+args=("$@")
+
+#colors
+green=$(tput setaf 71);
+blue=$(tput setaf 32);
+orange=$(tput setaf 178);
+reset=$(tput sgr0);
+
+#counters
+diff_found=0
+i=0
+accepted=0
+
+#getting arguments
+original_file=${args[0]}
+brute_file=${args[1]}
+generator_file=${args[2]}
+total_tests=${args[3]}
+[ -z $total_tests ] && total_tests=100
+
+#check the validity of files provided
+if [[ ! -f "$original_file" ]] || [[ ! -f "$brute_file" ]] || [[ ! -f "$generator_file" ]] 
+then
+	echo "[-] Invalid or Insufficent Arguments, exiting"
+	exit
+fi
+
+#compile all files
+g++ -std=c++17 $generator_file -o generator
+g++ -std=c++17 $original_file -o original
+g++ -std=c++17 $brute_file -o brute
+
+echo "Running tests..."
+while [ $i -le $total_tests ]
+do
+	# Generate test_case and save it in temp_input.txt
+	./generator > temp_input.txt
+
+	# run original solution, take input from above generated test case i.e. from temp_input.txt
+	# and save it in original_output.txt
+	./original < temp_input.txt > original_output.txt
+
+	# run brute force solution, take input from above generated test case i.e. from temp_input.txt
+	# and save it in brute_output.txt
+	./brute < temp_input.txt > brute_output.txt
+
+	# check if files original_output and brute_output
+	# differs(we are ignoring spaces and then comparing files)
+	if diff --tabsize=1 --side-by-side original_output.txt brute_output.txt > dont_show_on_terminal.txt; then
+		accepted=$((accepted+1))
+	else
+		echo "${orange}[-] Wrong Answer${reset}"
+		diff_found=1
+		break
+	fi
+	i=$((i+1))
+done
+
+#give the test case where solution failed
+if [ $diff_found -eq 1 ]
+then
+	echo "[+] ${accepted} Accepted, failed at"
+	echo "${blue}Input: ${reset}"
+	cat temp_input.txt
+
+	echo "${blue}Output: ${reset}"
+	cat original_output.txt
+
+	echo "${blue}Expected: ${reset}"
+	cat brute_output.txt
+else
+	echo "${green}[+] Accepted${reset}"
+fi
+
+#remove all the temp files created
+rm temp_input.txt
+rm generator
+rm original
+rm brute
+rm original_output.txt
+rm brute_output.txt
+rm dont_show_on_terminal.txt
+```
+
+The above code is quite self explanatory, here’s a brief on how it works. It starts by compiling generator, brute force solution and original solution files. Then testing process starts. Generator is executed and output is saved in a temporary file. Then original solution and brute force solutions are executed on the inputs generated by the generator and there outputs are also saved in temporary files. Then diff tool is used to find if the output of both solutions differ and if they differ, corresponding test case in writing to console.
+
+### Running The Stress Test
+
+First we make the bash script executable by running
+
+```bash
+$ chmod +x stress_tesh.sh
+```
+
+After that when all the files are ready we run the stress test
+
+```bash
+./stress_test.sh testing.cpp brute.cpp generator.cpp 1000
+```
+
+Note that the order of arguments do matter here. Last argument denotes the number of tests that we want to generate, by default its 100.
+
+### Example result
+
+```
+Running tests...
+[-] Wrong Answer
+[+] 443 Accepted, failed at
+Input:
+8
+1 1 6 4 2 3 8 8
+Output:
+48
+Expected:
+64
+```
+
+Now we have the test case where our solution fails 😄
+
+### Conclusion
+
+Stress testing can help to debug solutions quickly and efficiently in a coding contest. Finding test cases through stress testing is much more flexible than doing it by hand as humans are not that random.
+
+All of the code and my competitive coding setup can be find on [this](https://github.com/nanorex07/CP_setup) repository.
